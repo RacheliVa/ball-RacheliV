@@ -12,6 +12,18 @@ function initGame() {
 	gGamerPos = { i: 2, j: 9 };
 	gBoard = buildBoard();
 	renderBoard(gBoard);
+	setInterval(function () {
+		ballPlacement(12, 10);
+	}, 1800);
+}
+
+function ballPlacement(length, width) {
+	randomI = Math.floor(Math.random() * (length));
+	randomJ = Math.floor(Math.random() * (width));
+	if (gBoard[randomI][randomJ].type === FLOOR && gBoard[randomI][randomJ].gameElement === null)
+		renderCell({ i: randomI, j: randomJ }, BALL_IMG);
+	else
+	ballPlacement(length, width)
 }
 
 
