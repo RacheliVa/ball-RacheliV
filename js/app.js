@@ -8,22 +8,31 @@ var BALL_IMG = '<img src="img/ball.png" />';
 
 var gBoard;
 var gGamerPos;
+
+var countBall = 2;
+var countBallCaught = 0;
+
+
 function initGame() {
 	gGamerPos = { i: 2, j: 9 };
 	gBoard = buildBoard();
 	renderBoard(gBoard);
 	setInterval(function () {
 		ballPlacement(12, 10);
-	}, 1800);
+	}, 2000);
 }
 
-function ballPlacement(length, width) {
-	randomI = Math.floor(Math.random() * (length));
-	randomJ = Math.floor(Math.random() * (width));
-	if (gBoard[randomI][randomJ].type === FLOOR && gBoard[randomI][randomJ].gameElement === null)
+function ballPlacement() {
+	const randomI = Math.floor(Math.random() * gBoard.length);
+	const randomJ = Math.floor(Math.random() * gBoard[randomI].length)
+	if (gBoard[randomI][randomJ].type === FLOOR && gBoard[randomI][randomJ].gameElement === null) {
+		gBoard[randomI][randomJ].gameElement = BALL;
 		renderCell({ i: randomI, j: randomJ }, BALL_IMG);
+		countBall++;
+	}
 	else
-	ballPlacement(length, width)
+		ballPlacement();
+
 }
 
 
@@ -113,6 +122,15 @@ function moveTo(i, j) {
 
 		if (targetCell.gameElement === BALL) {
 			console.log('Collecting!');
+			countBallCaught++;
+			document.getElementById('countBallCaught').textContent = countBallCaught;
+			if (countBallCaught === countBall) {
+				countBall = 0;
+				countBallCaught = 0;
+				alert("Win!!!");
+				document.getElementById('countBallCaught').textContent = countBallCaught;
+			}
+
 		}
 
 		// MOVING from current position
@@ -162,6 +180,11 @@ function handleKey(event) {
 			break;
 
 	}
+
+	// for(i=0;i<gBoard.length;i++)
+	// 	for(j=0;j<gBoard[i].length;j++)
+	// 		if(gBoard[i][j].gameElement===BALL)
+
 
 }
 
